@@ -2,11 +2,11 @@
 
 #### 全局共享目录
 
-`/data1` ：服务层。存放服务应用文件，如网站根目录
+`/data1` ：服务层。代码为主，如网站根目录，提供服务
 
-`/data2` ：存储层。mysql数据文件、HDFS、图片、视频、上传的文件等
+`/data2` ：存储层。写/读可能都比较多的文件，如mysql数据文件、sock、临时文件都放这
 
-`/data3` ：配置、脚本、sock。如nginx、mysql的配置文件，数据库备份脚本、phpfpm-sock
+`/data3` ：静态层。读多写少，如日志、数据库备份、mysql修改记录、配置文件
 
 
 
@@ -30,41 +30,65 @@
 
 
 
-nginx容器名称：nginx
+nginx容器名称：`nginx`，镜像为`nginx/nginx:1.12-alpine`
 
-php容器名称：php
+php容器名称：`php`，镜像为`php/php:7.1-fpm-alpine`
 
-mysql容器名称：mysql
-
-
-
-### hosts配置
-
-172.17.0.101	server_http
-
-172.17.0.102	server_php
-
-172.17.0.103	server_mysql
+mysql容器名称：`mysql`，镜像为`mysql/mysql-server:5.7.20`
 
 
 
-### 一些操作命令
+**不知道是什么原因，php-fpm以daemon运行时会自动退出，但是搜到了一个[bugpatch](https://bugs.php.net/patch-display.php?bug_id=62886&patch=bug62886.patch.txt&revision=latest)，所以php-fpm配置为daemon=no**
+
+
+
+
+
+### 常用操作
+
+初始化nmp架构
+
+```
+git clone https://github.com/JerryCheese/docker-architecture.git
+cd docker-architecture/compose/nmp
+docker-compose up -d
+docker ps
+```
+
+
+
+由于在`.zshrc`(`.bash_profile`)中定义了
+
+```
+nginx_container="nginx"
+php_container="php"
+mysql_container="mysql"
+
+alias nginx="docker exec -it $nginx_container nginx"
+alias php="docker exec -it $php_container php"
+alias mysql="docker exec -it $mysql_container mysql"
+```
+
+
 
 #### mysql
 
-启动一个mysql容器，名称为mysql，初始密码为123456789
+登录mysql的命令为
 
-`docker run --name mysql -e MYSQL_ROOT_PASSWORD=123456789 -d mysql/mysql-server:5.7.20`
+`mysql -uroot -p`
 
-在mysql容器中，登录到mysql
+查看mysql版本
 
-`docker exec -it mysql mysql -uroot -p`
+`mysql --version`
 
 
 
-#### 常用操作
-
-启动nginx容器并显示命令行，退出容器后删除该容器(—rm)，alpine没有bash，所以是/bin/sh
+启动nginx容器并显示命令行，退出容器后删除该容器(--rm)，alpine没有bash，所以是/bin/sh
 
 `docker run -it --rm nginx:1.12-alpine /bin/sh`
 
+
+
+重新构建nmp架构
+
+`docker-compose stop && docker-compose rm && (docker-compose up -d)`
