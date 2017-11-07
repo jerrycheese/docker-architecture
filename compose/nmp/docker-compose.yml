@@ -15,7 +15,8 @@ ngxin:
     restart: always
 
 php:
-    image: php:7.1-fpm-alpine
+    build: ./php
+    #image: php:7.1-fpm-alpine
     container_name: php
     expose: 
         - "9000"
@@ -24,6 +25,8 @@ php:
         - "/data2/socks:/data/socks/"
         - "/data3/logs/php/:/data/logs/"
         - "/data3/conf/php/:/usr/local/etc/"
+    links:
+        - mysql:server_mysql
 
 mysql:
     image: mysql/mysql-server:5.7.20
@@ -37,4 +40,4 @@ mysql:
         - "/data3/logs/mysql:/data/logs/"
         - "/data3/backup/mysql:/data/backup/"
     environment: 
-        - MYSQL_ROOT_PASSWORD="123456789"
+        - MYSQL_ROOT_PASSWORD=123456789
