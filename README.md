@@ -46,7 +46,7 @@ mysql容器名称：`mysql`，源镜像为`mysql/mysql-server:5.7.20`
 
 ### 常用操作
 
-#####初始化nmp架构
+##### 初始化nmp架构
 
 ```
 git clone https://github.com/JerryCheese/docker-architecture.git
@@ -55,9 +55,7 @@ docker-compose up -d
 docker ps
 ```
 
-
-
-#####在`.zshrc`(`.bash_profile`)中定义了，以方便之后做一些操作，就像在本机进行一样。
+##### 在`.zshrc`(`.bash_profile`)中定义了，以方便之后做一些操作，就像在本机进行一样。
 
 ```
 nginx_container="nginx"
@@ -69,11 +67,11 @@ alias php="docker exec -it $php_container php"
 alias mysql="docker exec -it $mysql_container mysql"
 ```
 
-#####登录mysql的命令为
+##### 登录mysql的命令为
 
 `mysql -uroot -p`
 
-#####查看mysql版本
+##### 查看mysql版本
 
 `mysql --version`
 
@@ -84,4 +82,3 @@ alias mysql="docker exec -it $mysql_container mysql"
 ##### 重新构建nmp架构
 
 `docker-compose stop && docker-compose rm && (docker-compose up -d)`
-
