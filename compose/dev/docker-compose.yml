@@ -1,0 +1,24 @@
+php1:
+    build: ./php
+    #image: php:7.1-fpm-alpine
+    container_name: dev_php1
+    expose: 
+        - "9000"
+    volumes:
+        - "/data-dev/data1/:/data1/"
+        - "/data-dev/data2/:/data2/"
+        - "/data-dev/data2/php/conf/:/usr/local/etc/"
+    links:
+        - mysql1:server_mysql
+
+mysql1:
+    image: mysql/mysql-server:5.7.20
+    container_name: dev_mysql1
+    expose: 
+        - "11308"
+    volumes:
+        - "/data-dev/data1/:/data1/"
+        - "/data-dev/data2/:/data2/"
+        - "/data-dev/data2/mysql/conf/:/etc/mysql/"
+    environment: 
+        - MYSQL_ROOT_PASSWORD=123456789
