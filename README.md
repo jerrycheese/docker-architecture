@@ -24,6 +24,8 @@
 
 nginx的实例只有一个，存在于宿主的docker app中，只有1个。
 
+![](http://os9coobhw.bkt.clouddn.com/d6c6230a46f5cff94d795f28b21dc5cb.jpg)
+
 
 
 #### 逻辑划分而非单容器
