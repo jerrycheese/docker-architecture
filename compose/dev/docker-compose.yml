@@ -1,6 +1,7 @@
 php1:
-    build: ./php
+    #build: ./php
     #image: php:7.1-fpm-alpine
+    image: php-fpm-composer:1.0
     container_name: dev_php1
     expose: 
         - "9000"

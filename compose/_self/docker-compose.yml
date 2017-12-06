@@ -13,4 +13,5 @@ nginx1:
         - "/data2/:/data2/"
         - "/data2/nginx/conf/:/etc/nginx/"
         - "/data-dev/:/data-dev/"
+        - "/data-online/:/data-online/"
 

@@ -12,7 +12,15 @@ fi
 cmd=$1
 cmd=${cmd#*;}
 cmd=${cmd#*sc }
-app=${cmd%% *}
-container_name="${machine}${app}1"
-echo "[${container_name} $cur]$ $cmd"
-docker exec -it $container_name /bin/sh  -c "cd $cur && $cmd"
+if [[ ${cmd:0:2} = '-i' ]]
+then
+    app=${cmd#-i *}
+    container_name="${machine}${app}1"
+    echo "You might want: $cur"
+    docker exec -it $container_name /bin/sh
+else
+    app=${cmd%% *}
+    container_name="${machine}${app}1"
+    echo "[${container_name} $cur]$ $cmd"
+    docker exec -it $container_name /bin/sh  -c "cd $cur && $cmd"
+fi
