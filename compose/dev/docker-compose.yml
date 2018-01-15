@@ -15,6 +15,8 @@ php1:
 mysql1:
     image: mysql/mysql-server:5.7.20
     container_name: dev_mysql1
+    ports:
+        - "11308:11308"
     expose: 
         - "11308"
     volumes:
