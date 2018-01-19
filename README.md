@@ -90,7 +90,7 @@ sc php hello.php
 
 它会根据当前目录`/data-dev/data1/sites` 取出机器名称`dev` 和app名称`php`，容器序号固定为`1` 拼凑出容器名称为`dev_php1` ，再切换至对应的数据目录`/data-dev/data1/sites` 对应容器内的目录是`/data1/sites` 运行指定的命令`php hello.php`。
 
-所以如果在`~/.zshrr` (`~/.bash_profile`)中定义：
+所以如果在`~/.zshrc` (`~/.bash_profile`)中定义：
 
 ```
 alias php='sc php'

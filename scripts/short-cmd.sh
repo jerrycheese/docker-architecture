@@ -5,6 +5,7 @@ cmd=$@
 app=''
 interactive=false
 
+
 if [ -z "$cmd" ]
 then
     echo "You should input some cmds!"
@@ -47,10 +48,15 @@ container_name="${machine}${app}1"
 
 if $interactive
 then
-    echo "You might want: $cur"
-    docker exec -it $container_name /bin/sh
+    #echo "You might want: $cur"
+    cmd_exec='${SHELL:-sh}'
+    docker exec -it $container_name /bin/sh -c "cd ${cur};exec \"${cmd_exec}\""
 else
-    echo "[${container_name} $cur]# $cmd"
-    docker exec -it $container_name /bin/sh  -c "cd $cur && $cmd"
+    #echo "[${container_name} $cur]# $cmd"
+    sh_cmd="cd ${cur} && ${cmd}"
+    #echo $sh_cmd
+    docker exec -it $container_name /bin/sh -c "${sh_cmd}"
 fi
+
+
 
