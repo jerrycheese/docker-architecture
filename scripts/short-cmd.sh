@@ -2,6 +2,8 @@
 cur=$PWD
 machine=''
 cmd=$@
+app=''
+interactive=false
 
 if [ -z "$cmd" ]
 then
@@ -17,15 +19,38 @@ then
     cur="/$t"
 fi
 
-if [[ ${cmd:0:2} = '-i' ]]
+if [[ -z "$machine" ]]; then
+    echo "You are not in logical environment!"
+    exit
+fi
+
+while getopts :i:c: OPTION;do
+    case $OPTION in
+        i)  app=$OPTARG
+            interactive=true
+            ;;
+        c)
+            app=$OPTARG
+            cmd=${cmd#-c $app *}
+            ;;
+        ?)
+            ;;
+    esac
+done
+
+if [[ -z "$app" ]]; then
+    app=${cmd%% *}
+fi
+
+# default get 1
+container_name="${machine}${app}1"
+
+if $interactive
 then
-    app=${cmd#-i *}
-    container_name="${machine}${app}1"
     echo "You might want: $cur"
     docker exec -it $container_name /bin/sh
 else
-    app=${cmd%% *}
-    container_name="${machine}${app}1"
-    echo "[${container_name} $cur]$ $cmd"
+    echo "[${container_name} $cur]# $cmd"
     docker exec -it $container_name /bin/sh  -c "cd $cur && $cmd"
 fi
+
