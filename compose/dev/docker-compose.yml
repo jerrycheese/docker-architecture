@@ -25,3 +25,17 @@ mysql1:
         - "/data-dev/data2/mysql/conf/:/etc/mysql/"
     environment: 
         - MYSQL_ROOT_PASSWORD=123456789
+
+redis1:
+    image: redis:3.2.11-alpine
+    #build: ./redis
+    container_name: dev_redis1
+    ports: 
+        - "12301:12301"
+    expose:
+        - "12301"
+    volumes:
+        - "/data-dev/data1/:/data1/"
+        - "/data-dev/data2/:/data2/"
+    command: redis-server /data2/redis/conf/12301.conf
+    #command: redis-server
