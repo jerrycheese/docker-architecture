@@ -1,17 +1,3 @@
-php1:
-    #build: ./php
-    #image: php:7.1-fpm-alpine
-    image: php-fpm-composer:1.0
-    container_name: dev_php1
-    expose: 
-        - "9000"
-    volumes:
-        - "/data-dev/data1/:/data1/"
-        - "/data-dev/data2/:/data2/"
-        - "/data-dev/data2/php/conf/:/usr/local/etc/"
-    links:
-        - mysql1:server_mysql
-
 mysql1:
     image: mysql/mysql-server:5.7.20
     container_name: dev_mysql1
@@ -39,3 +25,17 @@ redis1:
         - "/data-dev/data2/:/data2/"
     command: redis-server /data2/redis/conf/12301.conf
     #command: redis-server
+
+mongo1:
+    image: mongo:3.6.3-jessie
+    # build: ./mongo
+    container_name: dev_mongo1
+    volumes:
+        - "/data-dev/data1/:/data1/"
+        - "/data-dev/data2/:/data2/"
+        - "/data-dev/data2/mongo/conf/:/data/configdb/"
+        - "/data-dev/data2/mongo/data/:/data/db/"
+    ports: 
+        - "27017:27017"
+    command: mongod --config=/data2/mongo/conf/core.conf --dbpath=/data2/mongo/data
+    
