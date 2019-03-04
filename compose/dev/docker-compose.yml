@@ -1,5 +1,6 @@
 php1:
     build: ./php
+    #image: dev_php1
     #image: php:7.1-fpm-alpine
     #image: php-fpm-composer:1.0
     container_name: dev_php1
@@ -11,6 +12,7 @@ php1:
         - "/data-dev/data2/php/conf/:/usr/local/etc/"
     links:
         - mysql1:server_mysql
+        - redis1:server_redis
 
 mysql1:
     image: mysql/mysql-server:5.7.20
